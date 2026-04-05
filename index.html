@@ -13,266 +13,168 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
     body {
       font-family: 'Nunito', sans-serif;
       background: #FFF8F0;
       min-height: 100vh;
-      min-height: -webkit-fill-available;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
       overflow-x: hidden;
     }
-
     .app {
-      width: 100%;
-      max-width: 420px;
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
+      width: 100%; max-width: 420px; padding: 16px 12px;
+      display: flex; flex-direction: column; align-items: center; min-height: 100vh;
     }
-
-    /* ── Header ── */
-    .header {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
+    .header { width: 100%; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
     .title { font-size: 22px; font-weight: 900; color: #FF6B6B; }
     .edit-toggle {
-      background: white;
-      border: 2.5px solid #FFD6CC;
-      border-radius: 10px;
-      padding: 6px 12px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 13px;
-      font-weight: 900;
-      color: #FF9966;
-      cursor: pointer;
+      background: white; border: 2.5px solid #FFD6CC; border-radius: 10px;
+      padding: 6px 12px; font-family: 'Nunito', sans-serif;
+      font-size: 13px; font-weight: 900; color: #FF9966; cursor: pointer;
     }
-    .edit-toggle:active { transform: scale(0.95); }
-
-    /* ── Family Grid ── */
-    .family-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      width: 100%;
-      margin-bottom: 12px;
-    }
+    .family-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; width: 100%; margin-bottom: 12px; }
     .family-btn {
-      background: white;
-      border: 3px solid #FFD6CC;
-      border-radius: 14px;
-      padding: 7px 3px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      transition: transform 0.12s;
-      position: relative;
+      background: white; border: 3px solid #FFD6CC; border-radius: 14px;
+      padding: 7px 3px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      transition: transform 0.12s; position: relative;
     }
     .family-btn:active { transform: scale(0.92); }
     .family-btn.selected { border-color: #FF6B6B; transform: scale(1.04); }
-    .avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      overflow: hidden;
-      background: #FFE8E0;
-    }
+    .avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; overflow: hidden; background: #FFE8E0; }
     .avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .family-label { font-size: 11px; font-weight: 900; color: #555; text-align: center; line-height: 1.2; }
-    .edit-badge {
-      display: none;
-      position: absolute;
-      top: -4px; right: -4px;
-      width: 18px; height: 18px;
-      background: #FF9966;
-      border-radius: 50%;
-      font-size: 10px;
-      align-items: center;
-      justify-content: center;
-      color: white;
-    }
+    .family-label { font-size: 11px; font-weight: 900; color: #555; text-align: center; }
+    .edit-badge { display: none; position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: #FF9966; border-radius: 50%; font-size: 10px; align-items: center; justify-content: center; color: white; }
     .edit-mode .edit-badge { display: flex; }
 
-    /* ── Phone Display ── */
-    .phone-display {
-      width: 100%;
-      background: white;
-      border-radius: 18px;
-      border: 3px solid #FFD6CC;
-      padding: 12px 14px;
-      margin-bottom: 12px;
-    }
-    .display-label { font-size: 11px; font-weight: 900; color: #FFAA88; margin-bottom: 5px; letter-spacing: 0.5px; }
+    .phone-display { width: 100%; background: white; border-radius: 18px; border: 3px solid #FFD6CC; padding: 12px 14px; margin-bottom: 12px; }
+    .display-label { font-size: 11px; font-weight: 900; color: #FFAA88; margin-bottom: 5px; }
     .number-row { display: flex; align-items: center; gap: 3px; flex-wrap: nowrap; overflow: hidden; }
-    .digit-box {
-      flex: 1; min-width: 0; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; font-weight: 900; color: #FF6B6B;
-      background: #FFF0ED; border-radius: 7px; border: 2px solid #FFD6CC;
-    }
+    .digit-box { flex: 1; min-width: 0; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; color: #FF6B6B; background: #FFF0ED; border-radius: 7px; border: 2px solid #FFD6CC; }
     .sep-box { font-size: 18px; font-weight: 900; color: #FFAA88; flex-shrink: 0; width: 10px; text-align: center; }
     .divider { height: 2px; background: #FFE8E0; border-radius: 2px; margin: 8px 0; }
-    .typed-label { font-size: 11px; font-weight: 900; color: #88BBFF; margin-bottom: 5px; letter-spacing: 0.5px; }
-    .typed-box {
-      flex: 1; min-width: 0; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; font-weight: 900;
-      border-radius: 7px; border: 2px dashed #BBDDFF;
-      color: transparent; background: #F0F6FF;
-      transition: all 0.15s;
-    }
+    .typed-label { font-size: 11px; font-weight: 900; color: #88BBFF; margin-bottom: 5px; }
+    .typed-box { flex: 1; min-width: 0; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; border-radius: 7px; border: 2px dashed #BBDDFF; color: transparent; background: #F0F6FF; transition: all 0.15s; }
     .typed-box.filled { border: 2px solid #5599FF; background: #E6F0FF; color: #3366EE; }
     .typed-box.correct { background: #E6FFE6; border-color: #44BB44; color: #228822; }
     .typed-box.wrong { background: #FFE6E6; border-color: #FF4444; color: #CC2222; }
     .progress-bar-wrap { width: 100%; height: 7px; background: #FFE8E0; border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
     .progress-bar { height: 100%; background: #FF9966; border-radius: 8px; transition: width 0.3s ease; width: 0%; }
 
-    /* ── Success ── */
-    .success-banner {
-      display: none;
-      background: #44CC44; color: white;
-      border-radius: 14px; padding: 9px 16px;
-      font-size: 17px; font-weight: 900; text-align: center;
-      margin-bottom: 10px; width: 100%;
-      animation: pop 0.35s ease;
+    /* Call button */
+    .call-btn-wrap { width: 100%; display: flex; justify-content: center; margin-bottom: 12px; }
+    .call-btn {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: #44CC44; border: none; cursor: pointer;
+      font-size: 34px; display: flex; align-items: center; justify-content: center;
+      animation: callPulse 1.8s infinite;
     }
-    .success-banner.show { display: block; }
-    @keyframes pop { 0%{transform:scale(0.85)} 60%{transform:scale(1.08)} 100%{transform:scale(1)} }
+    @keyframes callPulse { 0%,100%{box-shadow:0 0 0 0 rgba(68,204,68,0.5)} 50%{box-shadow:0 0 0 14px rgba(68,204,68,0)} }
+    .call-btn:active { transform: scale(0.9); }
 
-    /* ── Keypad ── */
     .keypad { width: 100%; background: white; border-radius: 18px; border: 3px solid #FFD6CC; padding: 12px; }
     .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .key-btn {
-      background: #FFF8F0; border: 2.5px solid #FFD6CC; border-radius: 12px;
-      height: 58px; font-size: 24px; font-weight: 900; color: #444;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.08s, background 0.08s;
-      user-select: none; -webkit-user-select: none; width: 100%;
-      font-family: 'Nunito', sans-serif;
-    }
+    .key-btn { background: #FFF8F0; border: 2.5px solid #FFD6CC; border-radius: 12px; height: 58px; font-size: 24px; font-weight: 900; color: #444; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.08s, background 0.08s; user-select: none; width: 100%; font-family: 'Nunito', sans-serif; }
     .key-btn:active { transform: scale(0.88); background: #FFE8E0; }
     .key-btn.del-btn { font-size: 20px; background: #FFF0F0; border-color: #FFBBBB; color: #FF4444; }
     .key-btn.empty-btn { background: transparent; border: none; pointer-events: none; }
-
     .placeholder { text-align: center; color: #FFBBAA; font-size: 14px; font-weight: 700; padding: 10px 0; }
 
-    /* ── Edit Modal ── */
-    .modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: white;
-      border-radius: 22px;
-      padding: 20px;
-      width: 100%;
-      max-width: 360px;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-    .modal-title { font-size: 18px; font-weight: 900; color: #FF6B6B; margin-bottom: 16px; text-align: center; }
-    .modal-avatar-wrap {
-      display: flex; justify-content: center; margin-bottom: 16px;
-    }
-    .modal-avatar {
-      width: 80px; height: 80px; border-radius: 50%;
-      border: 3px dashed #FFD6CC;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 38px; cursor: pointer; overflow: hidden;
-      background: #FFF0ED; position: relative;
-    }
-    .modal-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .modal-avatar-hint {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.45); color: white;
-      font-size: 10px; font-weight: 900; text-align: center; padding: 3px 0;
-    }
-    .field-label { font-size: 12px; font-weight: 900; color: #FFAA88; margin-bottom: 5px; }
-    .field-input {
-      width: 100%; padding: 10px 12px;
-      border: 2.5px solid #FFD6CC; border-radius: 10px;
-      font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 700; color: #444;
-      margin-bottom: 14px; outline: none;
-    }
-    .field-input:focus { border-color: #FF9966; }
-    .modal-emoji-grid {
-      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
-      margin-bottom: 14px;
-    }
-    .emoji-btn {
-      font-size: 24px; padding: 6px; border-radius: 8px;
-      border: 2px solid #FFD6CC; background: #FFF8F0;
-      cursor: pointer; text-align: center;
-    }
-    .emoji-btn.selected { border-color: #FF6B6B; background: #FFE8E0; }
-    .emoji-btn:active { transform: scale(0.9); }
-    .modal-btns { display: flex; gap: 8px; }
-    .btn-save {
-      flex: 1; padding: 12px; border-radius: 12px;
-      background: #FF6B6B; color: white; border: none;
-      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
-      cursor: pointer;
-    }
-    .btn-cancel {
-      padding: 12px 16px; border-radius: 12px;
-      background: #FFF0F0; color: #FF9966; border: 2px solid #FFD6CC;
-      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
-      cursor: pointer;
-    }
-    .btn-delete {
-      padding: 12px; border-radius: 12px;
-      background: #FFF0F0; color: #FF4444; border: 2px solid #FFBBBB;
-      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
-      cursor: pointer;
-    }
-    #photoInput { display: none; }
+    .success-banner { display: none; background: #44CC44; color: white; border-radius: 14px; padding: 9px 16px; font-size: 17px; font-weight: 900; text-align: center; margin-bottom: 10px; width: 100%; }
+    .success-banner.show { display: block; animation: pop 0.35s ease; }
+    @keyframes pop { 0%{transform:scale(0.85)} 60%{transform:scale(1.08)} 100%{transform:scale(1)} }
 
-    /* ── Install Banner ── */
-    .install-banner {
-      display: none;
-      width: 100%; background: white;
-      border: 2.5px solid #FFD6CC; border-radius: 14px;
-      padding: 10px 14px; margin-bottom: 12px;
-      align-items: center; gap: 10px;
+    /* ── CALL SCREEN ── */
+    .call-screen {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: #1a1a2e;
+      flex-direction: column; align-items: center; justify-content: space-between;
+      padding: 70px 30px 60px;
     }
+    .call-screen.active { display: flex; }
+    .call-top { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .call-avatar-wrap { position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
+    .ring-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.2);
+      animation: ringExpand 2s ease-out infinite;
+    }
+    .ring-ring:nth-child(2) { animation-delay: 0.65s; }
+    .ring-ring:nth-child(3) { animation-delay: 1.3s; }
+    @keyframes ringExpand { 0%{transform:scale(1);opacity:0.6} 100%{transform:scale(2.3);opacity:0} }
+    .call-avatar { width: 110px; height: 110px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 56px; overflow: hidden; border: 4px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.1); position: relative; z-index: 1; }
+    .call-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .call-name { font-size: 32px; font-weight: 900; color: white; }
+    .call-status { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.55); }
+
+    .speech-bubble { display: none; background: rgba(255,255,255,0.1); border-radius: 16px; padding: 14px 18px; max-width: 290px; text-align: center; color: white; font-size: 15px; font-weight: 700; line-height: 1.5; border: 1.5px solid rgba(255,255,255,0.18); }
+    .speech-bubble.show { display: block; }
+
+    .waveform { display: none; align-items: center; gap: 4px; height: 30px; }
+    .waveform.show { display: flex; }
+    .wave-bar { width: 4px; background: rgba(255,255,255,0.7); border-radius: 2px; animation: wave 0.8s ease-in-out infinite alternate; }
+    .wave-bar:nth-child(1){animation-delay:0s} .wave-bar:nth-child(2){animation-delay:0.1s} .wave-bar:nth-child(3){animation-delay:0.2s} .wave-bar:nth-child(4){animation-delay:0.3s} .wave-bar:nth-child(5){animation-delay:0.4s} .wave-bar:nth-child(6){animation-delay:0.3s} .wave-bar:nth-child(7){animation-delay:0.2s}
+    @keyframes wave { from{height:4px} to{height:28px} }
+
+    .end-btn { width: 74px; height: 74px; border-radius: 50%; background: #FF3B3B; border: none; font-size: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(255,59,59,0.45); }
+    .end-btn:active { transform: scale(0.9); }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: flex-start; justify-content: center; padding: 16px; overflow-y: auto; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 22px; padding: 20px; width: 100%; max-width: 360px; margin: auto; }
+    .modal-title { font-size: 18px; font-weight: 900; color: #FF6B6B; margin-bottom: 16px; text-align: center; }
+    .modal-avatar-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+    .modal-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px dashed #FFD6CC; display: flex; align-items: center; justify-content: center; font-size: 38px; cursor: pointer; overflow: hidden; background: #FFF0ED; position: relative; }
+    .modal-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-hint { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.4); color: white; font-size: 10px; font-weight: 900; text-align: center; padding: 3px 0; }
+    .field-label { font-size: 12px; font-weight: 900; color: #FFAA88; margin-bottom: 5px; }
+    .field-input { width: 100%; padding: 10px 12px; border: 2.5px solid #FFD6CC; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 700; color: #444; margin-bottom: 14px; outline: none; }
+    .field-input:focus { border-color: #FF9966; }
+    textarea.field-input { min-height: 76px; resize: vertical; font-size: 14px; line-height: 1.5; }
+    .emoji-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin-bottom: 14px; }
+    .emoji-btn { font-size: 24px; padding: 6px; border-radius: 8px; border: 2px solid #FFD6CC; background: #FFF8F0; cursor: pointer; }
+    .emoji-btn.selected { border-color: #FF6B6B; background: #FFE8E0; }
+
+    .voice-box { background: #F8F8FF; border-radius: 12px; padding: 12px; margin-bottom: 14px; border: 2px solid #E0E0FF; }
+    .vtabs { display: flex; gap: 5px; margin-bottom: 10px; }
+    .vtab { flex: 1; padding: 7px 4px; border-radius: 8px; border: 2px solid #D0D0FF; background: white; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 900; color: #888; cursor: pointer; text-align: center; }
+    .vtab.active { background: #6B6BFF; color: white; border-color: #6B6BFF; }
+    .vpanel { display: none; }
+    .vpanel.active { display: block; }
+
+    .speed-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .speed-lbl { font-size: 12px; font-weight: 900; color: #888; white-space: nowrap; }
+    .speed-val { font-size: 12px; font-weight: 900; color: #6B6BFF; min-width: 32px; }
+
+    .vbtn { width: 100%; padding: 9px; border-radius: 9px; border: none; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; cursor: pointer; margin-bottom: 7px; }
+    .vbtn.blue { background: #6B6BFF; color: white; }
+    .vbtn.red { background: #FF6B6B; color: white; }
+    .vbtn.red.recording { animation: recPulse 0.8s infinite; }
+    .vbtn.outline { background: white; border: 2px solid #D0D0FF; color: #6B6BFF; }
+    @keyframes recPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+    .vstatus { font-size: 12px; color: #888; font-weight: 700; text-align: center; }
+    .vaudio { width: 100%; margin-top: 6px; border-radius: 8px; display: none; }
+    .vaudio.show { display: block; }
+
+    .voice-select { width: 100%; padding: 8px 10px; border: 2px solid #D0D0FF; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #444; margin-bottom: 8px; background: white; outline: none; }
+
+    .modal-btns { display: flex; gap: 8px; }
+    .btn-save { flex: 1; padding: 12px; border-radius: 12px; background: #FF6B6B; color: white; border: none; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900; cursor: pointer; }
+    .btn-cancel { padding: 12px 16px; border-radius: 12px; background: #FFF0F0; color: #FF9966; border: 2px solid #FFD6CC; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900; cursor: pointer; }
+    .btn-del { padding: 12px; border-radius: 12px; background: #FFF0F0; color: #FF4444; border: 2px solid #FFBBBB; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900; cursor: pointer; }
+
+    #photoInput, #audioFile { display: none; }
+
+    .install-banner { display: none; width: 100%; background: white; border: 2.5px solid #FFD6CC; border-radius: 14px; padding: 10px 14px; margin-bottom: 12px; align-items: center; gap: 10px; }
     .install-banner.show { display: flex; }
     .install-banner p { font-size: 12px; font-weight: 700; color: #888; flex: 1; line-height: 1.4; }
-    .install-banner p strong { color: #FF6B6B; }
-    .btn-install {
-      background: #FF6B6B; color: white; border: none;
-      border-radius: 10px; padding: 8px 14px;
-      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900;
-      cursor: pointer; white-space: nowrap;
-    }
-    .btn-dismiss {
-      background: none; border: none; font-size: 18px; color: #CCC; cursor: pointer; padding: 0 2px;
-    }
+    .install-banner strong { color: #FF6B6B; }
+    .btn-install { background: #FF6B6B; color: white; border: none; border-radius: 10px; padding: 8px 14px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; cursor: pointer; }
+    .btn-dismiss { background: none; border: none; font-size: 18px; color: #CCC; cursor: pointer; }
   </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- Install Banner -->
   <div class="install-banner" id="installBanner">
     <p><strong>홈 화면에 추가</strong>하면 앱처럼 쓸 수 있어요!</p>
     <button class="btn-install" id="installBtn">설치</button>
@@ -281,20 +183,24 @@
 
   <div class="header">
     <div class="title">📞 전화번호 연습</div>
-    <button class="edit-toggle" id="editToggle" onclick="toggleEditMode()">✏️ 편집</button>
+    <button class="edit-toggle" id="editToggle" onclick="toggleEdit()">✏️ 편집</button>
   </div>
 
   <div class="family-grid" id="familyGrid"></div>
 
-  <div class="success-banner" id="successBanner">🎉 완벽해요! 정말 잘했어요! 🎉</div>
+  <div class="success-banner" id="successBanner">🎉 완벽해요! 이제 전화해볼까요? 📞</div>
 
   <div class="phone-display" id="phoneDisplay" style="display:none;">
     <div class="display-label">📖 따라 누를 번호</div>
-    <div class="number-row" id="targetNumber"></div>
+    <div class="number-row" id="targetRow"></div>
     <div class="divider"></div>
     <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
     <div class="typed-label">✏️ 내가 누른 번호</div>
-    <div class="number-row" id="typedNumber"></div>
+    <div class="number-row" id="typedRow"></div>
+  </div>
+
+  <div class="call-btn-wrap" id="callBtnWrap" style="display:none;">
+    <button class="call-btn" onclick="startCall()">📞</button>
   </div>
 
   <div class="placeholder" id="placeholder">👆 가족을 눌러서 시작해요!</div>
@@ -304,394 +210,405 @@
   </div>
 </div>
 
+<!-- Call Screen -->
+<div class="call-screen" id="callScreen">
+  <div class="call-top">
+    <div class="call-avatar-wrap">
+      <div class="ring-ring"></div>
+      <div class="ring-ring"></div>
+      <div class="ring-ring"></div>
+      <div class="call-avatar" id="callAvatar">👩</div>
+    </div>
+    <div class="call-name" id="callName">엄마</div>
+    <div class="call-status" id="callStatus">연결 중...</div>
+    <div class="speech-bubble" id="speechBubble"></div>
+    <div class="waveform" id="waveform">
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+  </div>
+  <button class="end-btn" onclick="endCall()">📵</button>
+</div>
+
 <!-- Edit Modal -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title" id="modalTitle">가족 편집</div>
     <div class="modal-avatar-wrap">
       <div class="modal-avatar" id="modalAvatar" onclick="document.getElementById('photoInput').click()">
-        <span id="modalAvatarEmoji">👶</span>
-        <div class="modal-avatar-hint">사진 변경</div>
+        <span id="modalEmoji">👶</span>
+        <div class="avatar-hint">사진 변경</div>
       </div>
     </div>
-    <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoChange(event)" />
+    <input type="file" id="photoInput" accept="image/*" onchange="onPhoto(event)" />
 
     <div class="field-label">이름</div>
-    <input class="field-input" id="editName" type="text" placeholder="예: 엄마" maxlength="6" />
+    <input class="field-input" id="eName" type="text" placeholder="예: 엄마" maxlength="6" />
 
-    <div class="field-label">전화번호 (숫자만 입력, 자동으로 - 추가)</div>
-    <input class="field-input" id="editPhone" type="tel" placeholder="01012345678" maxlength="11" />
+    <div class="field-label">전화번호 (숫자만)</div>
+    <input class="field-input" id="ePhone" type="tel" placeholder="01012345678" maxlength="11" />
 
-    <div class="field-label">기본 이모지 (사진 없을 때)</div>
-    <div class="modal-emoji-grid" id="emojiGrid"></div>
+    <div class="field-label">통화 연결 시 목소리</div>
+    <div class="voice-box">
+      <div class="vtabs">
+        <button class="vtab active" id="tab-tts" onclick="switchTab('tts')">🤖 AI 읽기</button>
+        <button class="vtab" id="tab-record" onclick="switchTab('record')">🎙️ 녹음</button>
+        <button class="vtab" id="tab-upload" onclick="switchTab('upload')">📁 파일</button>
+      </div>
+
+      <div class="vpanel active" id="vpanel-tts">
+        <div class="field-label">대본</div>
+        <textarea class="field-input" id="eScript" placeholder="예: 여보세요~ 우리 아가! 엄마야!"></textarea>
+        <select class="voice-select" id="voiceSel"></select>
+        <div class="speed-row">
+          <span class="speed-lbl">말하기 속도</span>
+          <input type="range" style="flex:1" id="eSpeed" min="0.5" max="1.5" step="0.1" value="0.85"
+            oninput="document.getElementById('speedVal').textContent=parseFloat(this.value).toFixed(1)+'x'" />
+          <span class="speed-val" id="speedVal">0.85x</span>
+        </div>
+        <button class="vbtn outline" onclick="previewTTS()">▶ 미리 듣기</button>
+      </div>
+
+      <div class="vpanel" id="vpanel-record">
+        <button class="vbtn red" id="recBtn" onclick="toggleRecord()">🎙️ 녹음 시작</button>
+        <div class="vstatus" id="recStatus">버튼을 눌러 녹음하세요</div>
+        <audio class="vaudio" id="recAudio" controls></audio>
+      </div>
+
+      <div class="vpanel" id="vpanel-upload">
+        <label class="vbtn blue" style="display:block;text-align:center;cursor:pointer" for="audioFile">📁 음성 파일 선택</label>
+        <input type="file" id="audioFile" accept="audio/*" onchange="onAudioFile(event)" />
+        <div class="vstatus" id="uploadStatus">mp3, wav, m4a 파일을 선택하세요</div>
+        <audio class="vaudio" id="uploadAudio" controls></audio>
+      </div>
+    </div>
+
+    <div class="field-label">기본 이모지</div>
+    <div class="emoji-grid" id="emojiGrid"></div>
 
     <div class="modal-btns">
-      <button class="btn-delete" id="deleteBtn" onclick="deleteMember()">🗑️</button>
+      <button class="btn-del" id="delBtn" onclick="doDelete()">🗑️</button>
       <button class="btn-cancel" onclick="closeModal()">취소</button>
-      <button class="btn-save" onclick="saveMember()">저장 ✓</button>
+      <button class="btn-save" onclick="doSave()">저장 ✓</button>
     </div>
   </div>
 </div>
 
 <script>
 const EMOJIS = ['👩','👨','👵','👴','👧','👦','👶','🧑','👩‍🦰','👨‍🦰','👩‍🦳','👨‍🦳','🧒','👱','🤶','🎅'];
-const COLORS = ['#FFD6F0','#D6E8FF','#FFE8D6','#D6FFE8','#FFF3CC','#E8D6FF','#D6FFE8','#FFD6D6'];
-const DEFAULT_FAMILY = [
-  { name: '엄마', emoji: '👩', color: '#FFD6F0', phone: '010-1234-5678', photo: null },
-  { name: '아빠', emoji: '👨', color: '#D6E8FF', phone: '010-9876-5432', photo: null },
-  { name: '할머니', emoji: '👵', color: '#FFE8D6', phone: '010-1111-2222', photo: null },
-  { name: '할아버지', emoji: '👴', color: '#D6FFE8', phone: '010-3333-4444', photo: null },
+const COLORS = ['#FFD6F0','#D6E8FF','#FFE8D6','#D6FFE8','#FFF3CC','#E8D6FF','#FFD6D6','#D6F0FF'];
+const DEFAULTS = [
+  {name:'엄마',emoji:'👩',color:'#FFD6F0',phone:'010-1234-5678',photo:null,voiceType:'tts',script:'여보세요~ 우리 아가! 엄마야. 잘 지냈어? 보고 싶었어!',ttsVoice:'',ttsSpeed:0.85,audioData:null},
+  {name:'아빠',emoji:'👨',color:'#D6E8FF',phone:'010-9876-5432',photo:null,voiceType:'tts',script:'여보세요! 아빠야~ 전화 잘 눌렀네! 우리 아들 최고야!',ttsVoice:'',ttsSpeed:0.85,audioData:null},
+  {name:'할머니',emoji:'👵',color:'#FFE8D6',phone:'010-1111-2222',photo:null,voiceType:'tts',script:'아이고 우리 강아지~ 할머니야! 밥은 먹었어?',ttsVoice:'',ttsSpeed:0.75,audioData:null},
+  {name:'할아버지',emoji:'👴',color:'#D6FFE8',phone:'010-3333-4444',photo:null,voiceType:'tts',script:'여보세요~ 할아버지야! 전화를 잘 눌렀구나, 우리 손주 최고!',ttsVoice:'',ttsSpeed:0.8,audioData:null},
 ];
 
-let family = [];
-let selectedIdx = null;
-let typedDigits = [];
-let targetDigits = [];
-let succeeded = false;
-let editMode = false;
-let editingIdx = null;
-let editPhotoData = null;
-let deferredPrompt = null;
+let family=[], selIdx=null, typed=[], target=[], done=false;
+let editMode=false, editIdx=null, newPhoto=null, newAudio=null, curTab='tts';
+let mediaRec=null, recChunks=[], recording=false;
+let ringCtx=null, ringTimer=null, callAudio=null, deferredPrompt=null;
 
-function loadFamily() {
-  try {
-    const saved = localStorage.getItem('phoneAppFamily');
-    family = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_FAMILY));
-  } catch(e) { family = JSON.parse(JSON.stringify(DEFAULT_FAMILY)); }
-}
-function saveFamily() {
-  localStorage.setItem('phoneAppFamily', JSON.stringify(family));
-}
+function load(){try{const s=localStorage.getItem('pfa3');family=s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULTS));}catch(e){family=JSON.parse(JSON.stringify(DEFAULTS));}}
+function save(){localStorage.setItem('pfa3',JSON.stringify(family));}
+function fmt(d){d=d.replace(/\D/g,'');if(d.length===11)return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7);if(d.length===10)return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);return d;}
+function digits(p){return p.replace(/-/g,'').split('');}
 
-function formatPhone(digits) {
-  const d = digits.replace(/\D/g, '');
-  if (d.length === 11) return d.slice(0,3) + '-' + d.slice(3,7) + '-' + d.slice(7);
-  if (d.length === 10) return d.slice(0,3) + '-' + d.slice(3,6) + '-' + d.slice(6);
-  return d;
-}
-
-function getDigitsOnly(phone) { return phone.replace(/-/g, '').split(''); }
-
-// ── Render Family Grid ──
-function buildFamilyGrid() {
-  const grid = document.getElementById('familyGrid');
-  grid.innerHTML = '';
-  family.forEach((f, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'family-btn' + (selectedIdx === i ? ' selected' : '');
-    btn.id = 'fam-' + i;
-
-    let avatarInner = '';
-    if (f.photo) {
-      avatarInner = `<img src="${f.photo}" alt="${f.name}" />`;
-    } else {
-      avatarInner = f.emoji;
-    }
-
-    btn.innerHTML = `
-      <div class="avatar" style="background:${f.color}">${avatarInner}</div>
-      <div class="family-label">${f.name}</div>
-      <div class="edit-badge">✏️</div>
-    `;
-    btn.addEventListener('click', () => editMode ? openModal(i) : selectFamily(i));
-    grid.appendChild(btn);
+// Grid
+function buildGrid(){
+  const g=document.getElementById('familyGrid');g.innerHTML='';
+  if(editMode)g.classList.add('edit-mode');else g.classList.remove('edit-mode');
+  family.forEach((f,i)=>{
+    const b=document.createElement('button');
+    b.className='family-btn'+(selIdx===i?' selected':'');
+    b.innerHTML=`<div class="avatar" style="background:${f.color}">${f.photo?`<img src="${f.photo}"/>`:`${f.emoji}`}</div><div class="family-label">${f.name}</div><div class="edit-badge">✏️</div>`;
+    b.onclick=()=>editMode?openModal(i):pick(i);
+    g.appendChild(b);
   });
-
-  // Add button in edit mode
-  if (editMode) {
-    const addBtn = document.createElement('button');
-    addBtn.className = 'family-btn';
-    addBtn.style.borderStyle = 'dashed';
-    addBtn.innerHTML = `<div class="avatar" style="background:#F0F0F0;font-size:28px;">+</div><div class="family-label">추가</div>`;
-    addBtn.addEventListener('click', () => openModal(-1));
-    grid.appendChild(addBtn);
+  if(editMode){
+    const a=document.createElement('button');
+    a.className='family-btn';a.style.borderStyle='dashed';
+    a.innerHTML=`<div class="avatar" style="background:#F0F0F0;font-size:28px;">+</div><div class="family-label">추가</div>`;
+    a.onclick=()=>openModal(-1);g.appendChild(a);
   }
-
-  if (editMode) grid.classList.add('edit-mode');
-  else grid.classList.remove('edit-mode');
 }
 
-function selectFamily(idx) {
-  selectedIdx = idx;
-  typedDigits = [];
-  succeeded = false;
+function pick(i){
+  selIdx=i;typed=[];done=false;
   document.getElementById('successBanner').classList.remove('show');
-  targetDigits = getDigitsOnly(family[idx].phone);
-  document.getElementById('phoneDisplay').style.display = 'block';
-  document.getElementById('keypad').style.display = 'block';
-  document.getElementById('placeholder').style.display = 'none';
-  buildFamilyGrid();
-  renderTargetNumber();
-  renderTypedNumber();
-  updateProgress();
+  document.getElementById('callBtnWrap').style.display='none';
+  target=digits(family[i].phone);
+  document.getElementById('phoneDisplay').style.display='block';
+  document.getElementById('keypad').style.display='block';
+  document.getElementById('placeholder').style.display='none';
+  buildGrid();drawTarget();drawTyped();prog();
 }
 
-function renderTargetNumber() {
-  const container = document.getElementById('targetNumber');
-  container.innerHTML = '';
-  const phone = family[selectedIdx].phone;
-  const parts = phone.split('-');
-  parts.forEach((part, pi) => {
-    part.split('').forEach(ch => {
-      const d = document.createElement('div');
-      d.className = 'digit-box'; d.textContent = ch;
-      container.appendChild(d);
-    });
-    if (pi < parts.length - 1) {
-      const s = document.createElement('div');
-      s.className = 'sep-box'; s.textContent = '-';
-      container.appendChild(s);
-    }
+function drawTarget(){
+  const c=document.getElementById('targetRow');c.innerHTML='';
+  family[selIdx].phone.split('-').forEach((p,pi,a)=>{
+    p.split('').forEach(ch=>{const d=document.createElement('div');d.className='digit-box';d.textContent=ch;c.appendChild(d);});
+    if(pi<a.length-1){const s=document.createElement('div');s.className='sep-box';s.textContent='-';c.appendChild(s);}
   });
 }
-
-function renderTypedNumber() {
-  const container = document.getElementById('typedNumber');
-  container.innerHTML = '';
-  const phone = family[selectedIdx].phone;
-  const parts = phone.split('-');
-  let digitIdx = 0;
-  parts.forEach((part, pi) => {
-    part.split('').forEach(ch => {
-      const d = document.createElement('div');
-      d.className = 'typed-box';
-      const typed = typedDigits[digitIdx];
-      if (typed !== undefined) {
-        d.classList.add('filled');
-        d.textContent = typed;
-        if (typed === ch) d.classList.add('correct');
-        else d.classList.add('wrong');
-      }
-      digitIdx++;
-      container.appendChild(d);
+function drawTyped(){
+  const c=document.getElementById('typedRow');c.innerHTML='';let di=0;
+  family[selIdx].phone.split('-').forEach((p,pi,a)=>{
+    p.split('').forEach(ch=>{
+      const d=document.createElement('div');d.className='typed-box';
+      const t=typed[di];
+      if(t!==undefined){d.classList.add('filled');d.textContent=t;d.classList.add(t===ch?'correct':'wrong');}
+      di++;c.appendChild(d);
     });
-    if (pi < parts.length - 1) {
-      const s = document.createElement('div');
-      s.className = 'sep-box'; s.textContent = '-';
-      container.appendChild(s);
-    }
+    if(pi<a.length-1){const s=document.createElement('div');s.className='sep-box';s.textContent='-';c.appendChild(s);}
   });
 }
+function prog(){const p=target.length?Math.min(typed.length,target.length)/target.length*100:0;document.getElementById('progressBar').style.width=p+'%';}
 
-function updateProgress() {
-  const pct = targetDigits.length > 0 ? (Math.min(typedDigits.length, targetDigits.length) / targetDigits.length * 100) : 0;
-  document.getElementById('progressBar').style.width = pct + '%';
-}
-
-function handleKey(k) {
-  if (selectedIdx === null || succeeded || editMode) return;
-  if (typedDigits.length >= targetDigits.length) return;
-  typedDigits.push(k);
-  renderTypedNumber();
-  updateProgress();
-  if (typedDigits.length === targetDigits.length) {
-    if (typedDigits.every((d, i) => d === targetDigits[i])) {
-      succeeded = true;
-      document.getElementById('successBanner').classList.add('show');
-    }
+function pressKey(k){
+  if(selIdx===null||editMode||done)return;
+  if(typed.length>=target.length)return;
+  typed.push(k);drawTyped();prog();
+  if(typed.length===target.length&&typed.every((d,i)=>d===target[i])){
+    done=true;
+    document.getElementById('successBanner').classList.add('show');
+    document.getElementById('callBtnWrap').style.display='flex';
   }
 }
-
-function handleDelete() {
-  if (selectedIdx === null || typedDigits.length === 0 || editMode) return;
-  succeeded = false;
-  document.getElementById('successBanner').classList.remove('show');
-  typedDigits.pop();
-  renderTypedNumber();
-  updateProgress();
+function pressBack(){
+  if(selIdx===null||typed.length===0||editMode)return;
+  if(done){done=false;document.getElementById('successBanner').classList.remove('show');document.getElementById('callBtnWrap').style.display='none';}
+  typed.pop();drawTyped();prog();
 }
 
-function buildKeypad() {
-  const grid = document.getElementById('keypadGrid');
-  grid.innerHTML = '';
-  const keys = ['1','2','3','4','5','6','7','8','9',null,'0','⌫'];
-  keys.forEach(k => {
-    const btn = document.createElement('button');
-    if (k === null) {
-      btn.className = 'key-btn empty-btn';
-    } else if (k === '⌫') {
-      btn.className = 'key-btn del-btn';
-      btn.textContent = '⌫';
-      btn.addEventListener('click', handleDelete);
-    } else {
-      btn.className = 'key-btn';
-      btn.textContent = k;
-      btn.addEventListener('click', () => handleKey(k));
-    }
-    grid.appendChild(btn);
+function buildKeypad(){
+  const g=document.getElementById('keypadGrid');g.innerHTML='';
+  ['1','2','3','4','5','6','7','8','9',null,'0','⌫'].forEach(k=>{
+    const b=document.createElement('button');
+    if(!k){b.className='key-btn empty-btn';}
+    else if(k==='⌫'){b.className='key-btn del-btn';b.textContent='⌫';b.onclick=pressBack;}
+    else{b.className='key-btn';b.textContent=k;b.onclick=()=>pressKey(k);}
+    g.appendChild(b);
   });
 }
 
-// ── Edit Mode ──
-function toggleEditMode() {
-  editMode = !editMode;
-  document.getElementById('editToggle').textContent = editMode ? '✓ 완료' : '✏️ 편집';
-  document.getElementById('editToggle').style.color = editMode ? '#44BB44' : '#FF9966';
-  buildFamilyGrid();
+// Ringtone
+function playRing(){
+  try{
+    ringCtx=new(window.AudioContext||window.webkitAudioContext)();
+    function beep(f,st,dur){
+      const o=ringCtx.createOscillator(),g=ringCtx.createGain();
+      o.connect(g);g.connect(ringCtx.destination);
+      o.frequency.value=f;o.type='sine';
+      const t=ringCtx.currentTime+st;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.28,t+0.03);
+      g.gain.linearRampToValueAtTime(0.28,t+dur-0.05);g.gain.linearRampToValueAtTime(0,t+dur);
+      o.start(t);o.stop(t+dur);
+    }
+    function ring(){beep(480,0,0.4);beep(620,0,0.4);beep(480,0.45,0.4);beep(620,0.45,0.4);}
+    ring();ringTimer=setInterval(ring,2600);
+  }catch(e){}
+}
+function stopRing(){if(ringTimer){clearInterval(ringTimer);ringTimer=null;}if(ringCtx){try{ringCtx.close();}catch(e){}ringCtx=null;}}
+
+// Call
+function startCall(){
+  if(selIdx===null)return;
+  const f=family[selIdx];
+  document.getElementById('callName').textContent=f.name;
+  document.getElementById('callStatus').textContent='📞 연결 중...';
+  document.getElementById('speechBubble').classList.remove('show');
+  document.getElementById('waveform').classList.remove('show');
+  const av=document.getElementById('callAvatar');
+  av.innerHTML=f.photo?`<img src="${f.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`:`${f.emoji}`;
+  document.getElementById('callScreen').classList.add('active');
+  playRing();
+  setTimeout(()=>{stopRing();document.getElementById('callStatus').textContent='🟢 통화 중';playVoice(f);},2600);
+}
+function playVoice(f){
+  const bub=document.getElementById('speechBubble');
+  const wav=document.getElementById('waveform');
+  if((f.voiceType==='record'||f.voiceType==='upload')&&f.audioData){
+    wav.classList.add('show');
+    callAudio=new Audio(f.audioData);
+    callAudio.play().catch(()=>{});
+    callAudio.onended=()=>wav.classList.remove('show');
+  } else if(window.speechSynthesis){
+    const txt=f.script||'여보세요! 잘 했어요!';
+    bub.textContent=txt;bub.classList.add('show');wav.classList.add('show');
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang='ko-KR';u.rate=f.ttsSpeed||0.85;
+    if(f.ttsVoice){const v=speechSynthesis.getVoices().find(v=>v.name===f.ttsVoice);if(v)u.voice=v;}
+    u.onend=()=>wav.classList.remove('show');
+    speechSynthesis.cancel();speechSynthesis.speak(u);
+  }
+}
+function endCall(){
+  stopRing();
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  if(callAudio){callAudio.pause();callAudio=null;}
+  document.getElementById('callScreen').classList.remove('active');
 }
 
-// ── Modal ──
-function openModal(idx) {
-  editingIdx = idx;
-  editPhotoData = null;
-  const isNew = idx === -1;
-  document.getElementById('modalTitle').textContent = isNew ? '새 가족 추가' : '가족 편집';
-  document.getElementById('deleteBtn').style.display = isNew ? 'none' : 'block';
+// Edit mode
+function toggleEdit(){
+  editMode=!editMode;
+  const t=document.getElementById('editToggle');
+  t.textContent=editMode?'✓ 완료':'✏️ 편집';
+  t.style.color=editMode?'#44BB44':'#FF9966';
+  buildGrid();
+}
 
-  const f = isNew ? { name: '', emoji: '👶', color: '#FFE8E0', phone: '', photo: null } : family[idx];
-  document.getElementById('editName').value = f.name;
-  document.getElementById('editPhone').value = f.phone.replace(/-/g, '');
+// Modal
+function openModal(idx){
+  editIdx=idx;newPhoto=null;newAudio=null;
+  const isNew=idx===-1;
+  document.getElementById('modalTitle').textContent=isNew?'새 가족 추가':'가족 편집';
+  document.getElementById('delBtn').style.display=isNew?'none':'';
+  const f=isNew?{name:'',emoji:'👶',phone:'',photo:null,voiceType:'tts',script:'',ttsVoice:'',ttsSpeed:0.85,audioData:null}:{...family[idx]};
+  document.getElementById('eName').value=f.name;
+  document.getElementById('ePhone').value=f.phone.replace(/-/g,'');
+  document.getElementById('eScript').value=f.script||'';
+  document.getElementById('eSpeed').value=f.ttsSpeed||0.85;
+  document.getElementById('speedVal').textContent=(f.ttsSpeed||0.85).toFixed(1)+'x';
 
-  const avatarEl = document.getElementById('modalAvatar');
-  avatarEl.innerHTML = '';
-  if (f.photo) {
-    const img = document.createElement('img');
-    img.src = f.photo;
-    avatarEl.appendChild(img);
-  } else {
-    const span = document.createElement('span');
-    span.id = 'modalAvatarEmoji';
-    span.textContent = f.emoji;
-    avatarEl.appendChild(span);
+  const av=document.getElementById('modalAvatar');
+  if(f.photo){av.innerHTML=`<img src="${f.photo}" style="width:100%;height:100%;object-fit:cover"/><div class="avatar-hint">사진 변경</div>`;}
+  else{av.innerHTML=`<span id="modalEmoji">${f.emoji}</span><div class="avatar-hint">사진 변경</div>`;}
+  av.onclick=()=>document.getElementById('photoInput').click();
+
+  setTimeout(()=>{
+    const sel=document.getElementById('voiceSel');sel.innerHTML='';
+    const voices=window.speechSynthesis?speechSynthesis.getVoices():[];
+    const ko=voices.filter(v=>v.lang.startsWith('ko'));
+    const list=ko.length?ko:voices.slice(0,8);
+    list.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;if(v.name===f.ttsVoice)o.selected=true;sel.appendChild(o);});
+  },100);
+
+  switchTab(f.voiceType||'tts');
+  const ra=document.getElementById('recAudio');ra.src='';ra.classList.remove('show');
+  const ua=document.getElementById('uploadAudio');ua.src='';ua.classList.remove('show');
+  document.getElementById('recStatus').textContent='버튼을 눌러 녹음하세요';
+  document.getElementById('uploadStatus').textContent='mp3, wav, m4a 파일을 선택하세요';
+  if(f.audioData&&(f.voiceType==='record'||f.voiceType==='upload')){
+    const el=f.voiceType==='record'?ra:ua;el.src=f.audioData;el.classList.add('show');
   }
-  avatarEl.innerHTML += '<div class="modal-avatar-hint">사진 변경</div>';
-  avatarEl.onclick = () => document.getElementById('photoInput').click();
-
   buildEmojiGrid(f.emoji);
   document.getElementById('modalOverlay').classList.add('open');
 }
-
-function closeModal() {
+function closeModal(){
+  if(recording)toggleRecord();
   document.getElementById('modalOverlay').classList.remove('open');
-  document.getElementById('photoInput').value = '';
-  editPhotoData = null;
+  newPhoto=null;newAudio=null;
 }
-
-function buildEmojiGrid(selectedEmoji) {
-  const grid = document.getElementById('emojiGrid');
-  grid.innerHTML = '';
-  EMOJIS.forEach(em => {
-    const btn = document.createElement('button');
-    btn.className = 'emoji-btn' + (em === selectedEmoji ? ' selected' : '');
-    btn.textContent = em;
-    btn.onclick = () => {
-      document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      // Update modal avatar preview if no custom photo
-      if (!editPhotoData) {
-        const avatarEl = document.getElementById('modalAvatar');
-        const emojiSpan = avatarEl.querySelector('span');
-        if (emojiSpan) emojiSpan.textContent = em;
-      }
-    };
-    grid.appendChild(btn);
+function switchTab(t){
+  curTab=t;
+  ['tts','record','upload'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('vpanel-'+x).classList.toggle('active',x===t);
   });
 }
+function buildEmojiGrid(sel){
+  const g=document.getElementById('emojiGrid');g.innerHTML='';
+  EMOJIS.forEach(em=>{
+    const b=document.createElement('button');b.className='emoji-btn'+(em===sel?' selected':'');b.textContent=em;
+    b.onclick=()=>{document.querySelectorAll('.emoji-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');if(!newPhoto){const sp=document.getElementById('modalEmoji');if(sp)sp.textContent=em;}};
+    g.appendChild(b);
+  });
+}
+function onPhoto(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{newPhoto=ev.target.result;const av=document.getElementById('modalAvatar');av.innerHTML=`<img src="${newPhoto}" style="width:100%;height:100%;object-fit:cover"/><div class="avatar-hint">사진 변경</div>`;av.onclick=()=>document.getElementById('photoInput').click();};
+  r.readAsDataURL(f);
+}
 
-function handlePhotoChange(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    editPhotoData = ev.target.result;
-    const avatarEl = document.getElementById('modalAvatar');
-    avatarEl.innerHTML = '';
-    const img = document.createElement('img');
-    img.src = editPhotoData;
-    avatarEl.appendChild(img);
-    avatarEl.innerHTML += '<div class="modal-avatar-hint">사진 변경</div>';
-    avatarEl.onclick = () => document.getElementById('photoInput').click();
+// Recording
+async function toggleRecord(){
+  if(!recording){
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      recChunks=[];
+      mediaRec=new MediaRecorder(stream);
+      mediaRec.ondataavailable=e=>{if(e.data.size>0)recChunks.push(e.data);};
+      mediaRec.onstop=()=>{
+        const blob=new Blob(recChunks,{type:'audio/webm'});
+        const url=URL.createObjectURL(blob);
+        const fr=new FileReader();fr.onload=ev=>{newAudio=ev.target.result;};fr.readAsDataURL(blob);
+        const a=document.getElementById('recAudio');a.src=url;a.classList.add('show');
+        document.getElementById('recStatus').textContent='✅ 녹음 완료! 재생해서 확인하세요';
+        stream.getTracks().forEach(t=>t.stop());
+      };
+      mediaRec.start();recording=true;
+      document.getElementById('recBtn').textContent='⏹ 녹음 중지';
+      document.getElementById('recBtn').classList.add('recording');
+      document.getElementById('recStatus').textContent='🔴 녹음 중...';
+    }catch(e){alert('마이크 접근 권한이 필요합니다.');}
+  }else{
+    mediaRec.stop();recording=false;
+    document.getElementById('recBtn').textContent='🎙️ 다시 녹음';
+    document.getElementById('recBtn').classList.remove('recording');
+  }
+}
+function onAudioFile(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{newAudio=ev.target.result;const a=document.getElementById('uploadAudio');a.src=ev.target.result;a.classList.add('show');document.getElementById('uploadStatus').textContent='✅ '+f.name;};
+  r.readAsDataURL(f);
+}
+function previewTTS(){
+  const txt=document.getElementById('eScript').value.trim();
+  if(!txt){alert('대본을 입력해주세요!');return;}
+  if(!window.speechSynthesis){alert('이 브라우저는 TTS를 지원하지 않습니다.');return;}
+  const u=new SpeechSynthesisUtterance(txt);u.lang='ko-KR';
+  u.rate=parseFloat(document.getElementById('eSpeed').value);
+  const sel=document.getElementById('voiceSel');
+  if(sel.value){const v=speechSynthesis.getVoices().find(v=>v.name===sel.value);if(v)u.voice=v;}
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+
+function doSave(){
+  const name=document.getElementById('eName').value.trim();
+  const ph=document.getElementById('ePhone').value.trim();
+  if(!name){alert('이름을 입력해주세요!');return;}
+  if(ph.replace(/\D/g,'').length<10){alert('올바른 전화번호를 입력해주세요!');return;}
+  const emoji=document.querySelector('.emoji-btn.selected')?.textContent||'👤';
+  const phone=fmt(ph);
+  const ci=editIdx>=0?editIdx%COLORS.length:family.length%COLORS.length;
+  const photo=newPhoto!==null?newPhoto:(editIdx>=0?family[editIdx].photo:null);
+  const audioData=curTab==='tts'?null:(newAudio!==null?newAudio:(editIdx>=0?family[editIdx].audioData:null));
+  const member={
+    name,emoji,phone,photo,
+    color:editIdx>=0?family[editIdx].color:COLORS[ci],
+    voiceType:curTab,
+    script:document.getElementById('eScript').value.trim(),
+    ttsVoice:document.getElementById('voiceSel').value,
+    ttsSpeed:parseFloat(document.getElementById('eSpeed').value),
+    audioData,
   };
-  reader.readAsDataURL(file);
+  if(editIdx===-1)family.push(member);else family[editIdx]=member;
+  save();closeModal();buildGrid();
+  if(editIdx===selIdx){typed=[];done=false;target=digits(phone);document.getElementById('successBanner').classList.remove('show');document.getElementById('callBtnWrap').style.display='none';drawTarget();drawTyped();prog();}
+}
+function doDelete(){
+  if(!confirm('정말 삭제할까요?'))return;
+  family.splice(editIdx,1);
+  if(selIdx===editIdx){selIdx=null;document.getElementById('phoneDisplay').style.display='none';document.getElementById('keypad').style.display='none';document.getElementById('callBtnWrap').style.display='none';document.getElementById('placeholder').style.display='block';}
+  else if(selIdx>editIdx)selIdx--;
+  save();closeModal();buildGrid();
 }
 
-function saveMember() {
-  const name = document.getElementById('editName').value.trim();
-  const phoneRaw = document.getElementById('editPhone').value.trim();
-  if (!name) { alert('이름을 입력해주세요!'); return; }
-  if (phoneRaw.replace(/\D/g,'').length < 10) { alert('올바른 전화번호를 입력해주세요!'); return; }
+// PWA
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(!localStorage.getItem('noInstall'))document.getElementById('installBanner').classList.add('show');});
+document.getElementById('installBtn').onclick=()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('installBanner').classList.remove('show');});}};
+document.getElementById('dismissBtn').onclick=()=>{document.getElementById('installBanner').classList.remove('show');localStorage.setItem('noInstall','1');};
+document.getElementById('modalOverlay').onclick=e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();};
 
-  const selectedEmojiBtn = document.querySelector('.emoji-btn.selected');
-  const emoji = selectedEmojiBtn ? selectedEmojiBtn.textContent : '👤';
-  const phone = formatPhone(phoneRaw);
-  const colorIdx = editingIdx >= 0 ? editingIdx % COLORS.length : family.length % COLORS.length;
-  const photo = editPhotoData !== null ? editPhotoData : (editingIdx >= 0 ? family[editingIdx].photo : null);
+if(window.speechSynthesis)speechSynthesis.onvoiceschanged=()=>{};
 
-  if (editingIdx === -1) {
-    family.push({ name, emoji, color: COLORS[colorIdx], phone, photo });
-  } else {
-    family[editingIdx] = { ...family[editingIdx], name, emoji, phone, photo };
-  }
-
-  saveFamily();
-  closeModal();
-  buildFamilyGrid();
-
-  // Reset game if edited selected member
-  if (editingIdx === selectedIdx) {
-    typedDigits = [];
-    succeeded = false;
-    targetDigits = getDigitsOnly(phone);
-    document.getElementById('successBanner').classList.remove('show');
-    renderTargetNumber();
-    renderTypedNumber();
-    updateProgress();
-  }
-}
-
-function deleteMember() {
-  if (!confirm('정말 삭제할까요?')) return;
-  family.splice(editingIdx, 1);
-  if (selectedIdx === editingIdx) {
-    selectedIdx = null;
-    document.getElementById('phoneDisplay').style.display = 'none';
-    document.getElementById('keypad').style.display = 'none';
-    document.getElementById('placeholder').style.display = 'block';
-  } else if (selectedIdx > editingIdx) {
-    selectedIdx--;
-  }
-  saveFamily();
-  closeModal();
-  buildFamilyGrid();
-}
-
-// ── PWA Install ──
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const banner = document.getElementById('installBanner');
-  if (!localStorage.getItem('installDismissed')) banner.classList.add('show');
-});
-
-document.getElementById('installBtn').addEventListener('click', () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-      document.getElementById('installBanner').classList.remove('show');
-    });
-  }
-});
-
-document.getElementById('dismissBtn').addEventListener('click', () => {
-  document.getElementById('installBanner').classList.remove('show');
-  localStorage.setItem('installDismissed', '1');
-});
-
-// Close modal on overlay click
-document.getElementById('modalOverlay').addEventListener('click', e => {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-});
-
-// ── Init ──
-loadFamily();
-buildFamilyGrid();
-buildKeypad();
-
-// Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
+load();buildGrid();buildKeypad();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
